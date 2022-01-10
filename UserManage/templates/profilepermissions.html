@@ -1,0 +1,141 @@
+
+
+{% extends 'base.html' %}
+{% block content %}
+    <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
+
+    <div class="content content-fixed" id="screen9">
+        <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
+           {% for message in messages %}
+                <div class="alert {{ message.tags }}">
+                    <a class="close" href="#" data-dismiss="alert">×</a>
+
+                    {{ message }}
+
+                </div>
+            {% endfor %}
+            <form method="POST" action="{% url 'updatepermissions' %}" id="user-form"> {% csrf_token %}
+            <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
+                <div>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+                            <li class="breadcrumb-item"><a href="#">{{ main }}</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ sub }}</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="d-none d-md-block">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+                            <li style="font-size:11px;margin-top: -10px;margin-right: 10px;"><input class="form-control" value="" type="checkbox" id="checkAll" name="checkAll"> <div style="margin-top: -7px">SELECT ALL</div></li>
+                            <li style="font-size:11px;">
+                                <input type="hidden" value="{{ profileid }}" id="profileid" name="profileid">
+                                <input type="hidden" value="{{ moduleid }}" id="moduleid" name="moduleid">
+                                <input type="hidden" value="0" id="menuid" name="menuid">
+                                <input type="hidden" value="{{ permissions.id }}" id="permissionsid" name="permissionsid">
+                                <button type="button" style="float:right;" class="btn btn-xs btn-primary" onclick="updateprofilepermissions(0)">Update All</button>
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="row row-xs">
+                <div class="col-md-12 op-3-f">
+                    <div data-label="Example" class="df-example demo-table">
+                        <table id="example2" class="table">
+                            <thead>
+                            <tr>
+                                <th class="wd-25p">SCREENS</th>
+                                <th class="wd-12p text-center">READ</th>
+                                <th class="wd-12p text-center">CREATE</th>
+                                <th class="wd-12p text-center">EDIT</th>
+                                <th class="wd-12p text-center">DELETE</th>
+                                <th class="wd-20p text-center">MISCELLANEOUS</th>
+                                <th class="wd-10p text-center">GRANT</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in res %}
+
+                                    <tr>
+                                        <td class="tx-inverse tx-16 mg-b-0 mg-r-auto" title="{{ row.name }} Screen Permissions" data-toggle="tooltip" data-placement="top"><a href="{% url row.link.strip %}" ><i data-feather="{{ row.icon }}" style="height: 15px"></i>{{ row.name }}</a></td>
+                                        <td class="text-center"  title="View Permission" data-toggle="tooltip" data-placement="top">
+                                            <div class="custom-control custom-switch text-center">
+                                                <input type="checkbox" class="custom-control-input" id="{{ row.access_name }}_access" name="{{ row.access_name }}_access" onclick="getId({{ row.access_name }},'_access')" {% if row.access == 1 %}  checked {% endif %}>
+                                                <label class="custom-control-label" for="{{ row.access_name }}_access">&nbsp;</label>
+                                            </div>
+                                        </td>
+                                        <td class="text-center" title="Create Permission" data-toggle="tooltip" data-placement="top">
+                                             <div class="custom-control custom-switch text-center">
+                                                <input type="checkbox" class="custom-control-input" id="{{ row.access_name }}_create" name="{{ row.access_name }}_create" onclick="getId({{ row.access_name }},'_create')" {% if row.create == 1 %}  checked {% endif %}>
+                                                <label class="custom-control-label" for="{{ row.access_name }}_create">&nbsp;</label>
+                                            </div>
+                                        </td>
+                                        <td class="text-center" title="Edit Permission" data-toggle="tooltip" data-placement="top">
+                                            <div class="custom-control custom-switch text-center">
+                                                <input type="checkbox" class="custom-control-input" id="{{ row.access_name }}_edit" name="{{ row.access_name }}_edit" onclick="getId({{ row.access_name }},'_edit')" {% if row.edit == 1 %}  checked {% endif %}>
+                                                <label class="custom-control-label" for="{{ row.access_name }}_edit">&nbsp;</label>
+                                            </div>
+                                        </td>
+                                        <td class="text-center" title="Delete Permission" data-toggle="tooltip" data-placement="top">
+                                            <div class="custom-control custom-switch text-center">
+                                                <input type="checkbox" class="custom-control-input" id="{{ row.access_name }}_delete" name="{{ row.access_name }}_delete" onclick="getId({{ row.access_name }},'_delete')" {% if row.delete == 1 %}  checked {% endif %}>
+                                                <label class="custom-control-label" for="{{ row.access_name }}_delete">&nbsp;</label>
+                                            </div>
+                                        </td>
+                                        <td class="text-center"></td>
+                                        <td class="text-center"><button class="btn btn-xs btn-outline-success" style="width: 100%;" onclick="updateprofilepermissions({{ row.id }})"><i data-feather="check" style="height: 15px"></i> Grant</button></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+
+    </body>
+    <script type='text/javascript'>
+        $( document ).ready(function() {
+
+            $('#example2').DataTable({
+              responsive: false,
+              language: {
+                searchPlaceholder: 'Search...',
+                sSearch: '',
+                lengthMenu: '_MENU_ items/page',
+              },
+              "columnDefs": [
+                { "orderable": false, "targets": [1,2,3,4,5,6] }
+              ],
+                iDisplayLength: 100,
+                searching: true,
+                info: true,
+                lengthChange: false
+            });
+
+            $("#checkAll").click(function () {
+                $('input:checkbox').not(this).prop('checked', this.checked);
+            });
+
+        });
+
+        function updateprofilepermissions(id){
+
+            $('#menuid').val(id);
+	        document.getElementById('user-form').submit();
+
+        }
+    </script>
+{% endblock %}
+
+

@@ -1,0 +1,277 @@
+
+
+{% extends 'base.html' %}
+{% block content %}
+    {%load static  %}
+    <!--<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>-->
+
+    <div class="content content-fixed" id="screen9">
+        <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}">
+                    <a class="close" href="#" data-dismiss="alert">×</a>
+
+                    {{ message }}
+
+                </div>
+            {% endfor %}
+            <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
+                <div>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+                            <li class="breadcrumb-item"><a href="#">{{ main }}</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ sub }}</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="d-none d-md-block">
+
+                </div>
+            </div>
+
+            <div class="row row-xs">
+                <div class="col-lg-12 col-xl-12 mg-t-10">
+                    <div class="card">
+                        <div class="card-header pd-y-20 d-md-flex align-items-center justify-content-between">
+                            <h6 class="mg-b-0">Role Permissions Manager</h6>
+                            <ul class="list-inline d-flex mg-t-20 mg-sm-t-10 mg-md-t-0 mg-b-0">
+                               <a href=""><li class="list-inline-item d-flex align-items-center">
+
+                                        <span class="d-block wd-10 ht-10 bg-df-1 rounded mg-r-5"></span>
+                                        <span class="tx-sans tx-uppercase tx-10 tx-medium tx-color-03">Set User Permission</span>
+
+                                </li></a>
+                            </ul>
+                        </div><!-- card-header -->
+                        <div class="card-body pos-relative pd-10 bg-light">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group mg-b-0">
+                                        <label>Select Document Type: </label>
+                                       <select class="form-control select2" id="document" onchange="getDocumentPermissions()">
+                                           <option label="Choose Document Type"></option>
+                                           {% for doc in docs %}
+                                                <option value="{{ doc.id }}">{{ doc.name }}</option>
+                                            {% endfor %}
+
+                                        </select>
+                                    </div>
+                                </div>
+                                 <div class="col-md-3">
+                                    <div class="form-group mg-b-0">
+                                        <label>Select Role: </label>
+                                        <select class="form-control select2"  id="role" onchange="getDocumentPermissions()">
+                                            <option label="Choose Role"></option>
+                                           {% for row in res %}
+                                                <option value="{{ row.id }}">{{ row.profile_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body pos-relative pd-10" style="min-height: 125px" id="per_nill">
+                            <p class="text-muted fa-1x"><i></i><i data-feather="check" style="height: 15px;"></i> Select Document Type or Role to start.</p>
+                        </div>
+                        <div class="card-body pos-relative pd-10" style="display: none;" id="per_all">
+                            <table class="table table-sm table-hover table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Document Type</th>
+                                        <th>Role</th>
+                                        <th>Permissions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="per_body">
+                                    <tr>
+                                        <td>App Settings</td>
+                                        <td>ADMIN</td>
+                                        <td>Settings</td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                         <div class="card-body pos-relative pd-10" style="display: none;" id="per_all1">
+                               <div class="row">
+                                <div class="col-md-3">
+                                    <a href="#modalBillingInfo" data-toggle="modal" class="outline-none" onclick="getPermissionRole()">
+                                        <button class="btn btn-primary btn-sm" type="button"><i data-feather="plus" class="ht-15"></i> Add New Role</button>
+                                    </a>
+                                </div>
+                               </div>
+                        </div>
+                        <hr>
+                        <div style="padding: 0px 15px;" class="text-muted"> <h4>Quick Help for Setting Permissions:</h4> <ol> <li>Permissions are set on Roles and Document Types (called DocTypes) by setting rights like Read, Write, Create, Delete, Submit, Cancel, Amend, Report, Import, Export, Print, Email and Set User Permissions.</li> <li>Permissions get applied on Users based on what Roles they are assigned.</li> <li>Roles can be set for users from their User page. <a href="#List/User">Setup &gt; User</a></li> <li>The system provides many pre-defined roles. You can add new roles to set finer permissions.<a href="#List/Role"> Add a New Role</a></li> <li>Permissions are automatically applied to Standard Reports and searches.</li> <li>As a best practice, do not assign the same set of permission rule to different Roles. Instead, set multiple Roles to the same User.</li> </ol> <hr> <h4>Meaning of Submit, Cancel, Amend:</h4> <ol> <li>Certain documents, like an Invoice, should not be changed once final. The final state for such documents is called Submitted. You can restrict which roles can Submit.</li> <li>You can change Submitted documents by cancelling them and then, amending them.</li> <li>When you Amend a document after Cancel and save it, it will get a new number that is a version of the old number.</li> <li>For example if you cancel and amend INV004 it will become a new document INV004-1. This helps you to keep track of each amendment.</li> </ol> <hr> <h4>Permission Levels:</h4> <ol> <li>Permissions at level 0 are Document Level permissions, i.e. they are primary for access to the document.</li> <li>If a Role does not have access at Level 0, then higher levels are meaningless.</li> <li>Permissions at higher levels are Field Level permissions. All Fields have a Permission Level set against them and the rules defined at that permissions apply to the field. This is useful in case you want to hide or make certain field read-only for certain Roles.</li> <li>You can use Customize Form to set levels on fields. <a href="#Form/Customize Form">Setup &gt; Customize Form</a></li> </ol> <hr> <h4>User Permissions:</h4> <ol> <li>User Permissions are used to limit users to specific records. <a href="#List/User Permission">Setup &gt; User Permissions</a></li> <li>Select Document Types to set which User Permissions are used to limit access.</li> <li>Once you have set this, the users will only be able access documents (eg. Blog Post) where the link exists (eg. Blogger).</li> <li>Apart from System Manager, roles with Set User Permissions right can set permissions for other users for that Document Type.</li> </ol> <p>If these instructions where not helpful, please add in your suggestions on GitHub Issues. <a href="https://github.com/frappe/frappe/issues" target="_blank" rel="noopener noreferrer">Submit an Issue</a> </p> </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="modal fade" id="modalBillingInfo" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered wd-sm-650" role="document">
+        <div class="modal-content">
+          <div class="modal-header pd-y-20 pd-x-20 pd-sm-x-30">
+            <a href="" role="button" class="close pos-absolute t-15 r-15" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </a>
+            <div class="media align-items-center">
+              <span class="tx-color-03 d-none d-sm-block"><i data-feather="settings" class="wd-20 ht-20"></i></span>
+              <div class="media-body mg-sm-l-20">
+                <h4 class="tx-18 tx-sm-20 mg-b-2">Add New Permission Rule</h4>
+              </div>
+            </div><!-- media -->
+          </div><!-- modal-header -->
+          <div class="modal-body pd-sm-t-30 pd-sm-b-40 pd-sm-x-30">
+
+
+            <div class="form-group">
+              <label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-5 tx-color-03">Document Type</label>
+               <select class="form-control select2" id="documenttype" style="width: 100%" disabled="true" onchange="setValue(this.value)">
+                   <option label="Choose Document Type"></option>
+                   {% for do in docs %}
+                        <option value="{{ do.id }}">{{ do.name }}</option>
+                    {% endfor %}
+
+                </select>
+                <input type="text" value="" id="documenttypeId" name="documenttypeId">
+            </div>
+
+            <div class="form-group">
+              <label class="tx-10 tx-uppercase tx-medium tx-spacing-1 mg-b-5 tx-color-03">Name on Card</label>
+               <select class="form-control select2"  id="roletype"  style="width: 100%" onchange="setRoleValue(this.value)">
+                    <option label="Choose Role"></option>
+                   {% for row in res %}
+                        <option value="{{ row.id }}">{{ row.profile_name }}</option>
+                    {% endfor %}
+                </select>
+            <input type="text" value="" id="roletypeId" name="roletypeId">
+            </div>
+
+
+          </div><!-- modal-body -->
+          <div class="modal-footer pd-x-20 pd-y-15">
+            <button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" onclick="insertRolePermissions()">Save Info</button>
+          </div>
+        </div><!-- modal-content -->
+      </div><!-- modal-dialog -->
+    </div><!-- modal -->
+
+
+<script>
+    function getDocumentPermissions(){
+
+        var document = $('#document').val();
+        var role = $('#role').val();
+        if(!document){
+            Swal.fire({
+                position: 'top-end',
+                icon: 'danger',
+                title: 'Sorry! Select Document Type First.',
+                showConfirmButton: false,
+                timer: 1500
+            })
+            return false;
+        }
+
+         var data = {document, role};
+        $.ajax({
+                type : 'GET',
+                url: "{% url 'getDocumentPermissions' %}",
+                data : data,
+                dataType: 'json',
+                success: function (data) {
+                    if(data.length!=0){
+                        $('#per_all').show();
+                        $('#per_all1').show();
+
+                        console.log(data);
+
+
+                    }else{
+                        $('#per_nill').html('<p class="text-danger fa-1x" ><i></i><i data-feather="check" style="height: 15px;"></i> Sorry! No Permissions at. Create New Role Permissions</p>');
+                        $('#per_all').hide();
+                        $('#per_all1').show();
+                    }
+                },
+                error : function(response){
+                    console.log(response)
+                }
+        });
+
+    }
+
+    function getPermissionRole(){
+
+        var document = $('#document').val();
+        var role = $('#role').val();
+
+       $('#documenttype').val(document);
+       $('#documenttypeId').val(document);
+        if(role){
+            $('#roletype').val(role);
+            $('#roletypeId').val(role);
+             $('#roletype').attr('disabled', true);
+        }else{
+            $('#roletype').attr('disabled', false);
+        }
+
+        $('select:not(.normal)').each(function () {
+            $(this).select2({
+                dropdownParent: $(this).parent(),
+                minimumResultsForSearch: 5,
+                placeholder: 'Choose one',
+            });
+        });
+    }
+
+    function setValue(val){
+        $('#documenttypeId').val(val);
+    }
+    function setRoleValue(val){
+        $('#roletypeId').val(val);
+    }
+
+    function insertRolePermissions(){
+
+        var documentid = $('#documenttypeId').val();
+        var roleid = $('#roletypeId').val();
+
+        if(!roleid){
+            Swal.fire("Sorry! Select Role");
+            return false;
+        }
+
+        var data = {documentid, roleid};
+
+        $.ajax({
+                type : 'GET',
+                url: "{% url 'insertRolePermissions' %}",
+                data : data,
+                dataType: 'json',
+                success: function (data) {
+                    jQuery('#modalBillingInfo').modal('hide');
+                    getDocumentPermissions();
+                },
+                error : function(response){
+                    console.log(response)
+                }
+        });
+    }
+
+</script>
+
+
+
+    </body>
+
+{% endblock %}
+
+

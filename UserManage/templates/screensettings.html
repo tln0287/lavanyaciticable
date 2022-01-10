@@ -1,0 +1,65 @@
+
+
+{% extends 'base.html' %}
+{% block content %}
+    {%load static  %}
+    <!--<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>-->
+
+    <div class="content content-fixed" id="screen9">
+        <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}">
+                    <a class="close" href="#" data-dismiss="alert">×</a>
+
+                    {{ message }}
+
+                </div>
+            {% endfor %}
+            <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
+                <div>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+                            <li class="breadcrumb-item"><a href="#">{{ main }}</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ sub }}</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="d-none d-md-block">
+
+                </div>
+            </div>
+
+            <div class="row row-xs">
+                        {% for row in modules %}
+
+                            <div class="col-md-3 mg-b-10">
+                                <div class="card">
+                                  <div class="card-header pd-y-20 d-md-flex align-items-center justify-content-between">
+                                    <a href="{% url 'modulescreens' row.id %}"> <h6 class="mg-b-0">{{ row.module_name }}</h6></a>
+                                    <ul class="list-inline d-flex mg-t-20 mg-sm-t-10 mg-md-t-0 mg-b-0">
+                                      <li class="list-inline-item d-flex align-items-center mg-l-5">
+                                          <a href="{% url 'modulescreens' row.id %}"> <span class="tx-sans tx-uppercase tx-10 tx-medium tx-color-03"><i data-feather="chevron-right"></i></span></a>
+                                      </li>
+                                    </ul>
+                                  </div><!-- card-header -->
+                                </div>
+                            </div><!-- col -->
+
+                        {% endfor %}
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    </body>
+
+{% endblock %}
+
+

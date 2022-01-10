@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Colorlib Templates">
+
+    <meta name="keywords" content="">
+
+    <!-- Title Page-->
+    <title>Lavanya Citi Cable</title>
+{% load static %}
+    <!-- Icons font CSS-->
+    <link href="{% static 'vendor/mdi-font/css/material-design-iconic-font.min.css' %}"  rel="stylesheet" media="all">
+    <link   href="{% static 'vendor/font-awesome-4.7/css/font-awesome.min.css' %}" rel="stylesheet" media="all">
+    <!-- Font special for pages-->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+
+    <!-- Vendor CSS-->
+    <link  href="{% static 'vendor/select2/select2.min.css' %}"  rel="stylesheet" media="all">
+
+
+    <!-- Main CSS-->
+    <link  href="{% static 'assets/css/main.css' %}"  rel="stylesheet" media="all">
+</head>
+
+<body style="background-color:#293a4a;">
+    <div class="page-wrapper  p-t-100 p-b-100 font-robo">
+        <div class="wrapper wrapper--w680">
+            <div class="card card-1" style="background-image: url('{{STATIC_URL}}/assets/img/new.jpg');">
+                <div class="card-title">  {%for i in caf_data %}
+                    <br>
+                    <h4  style="text-align:center">Welcome {{i.Customer_Name}}</h4><br>
+
+                    <h4 style="text-align:center">Mobile Number: {{i.Customer_Mobile}}</h4><br>
+                    <h4 style="text-align:center">Your Bill Amount : {{i.Billing_amount}}</h4><br>
+                    <h4 style="text-align:center">Your total Balance : {{i.total_balance}}</h4><br>
+                </div>
+
+                <div class="card-body">
+
+
+                    <form method="post" action="{% url 'payamount' %}">
+                       {% csrf_token %}
+                        <div class="input-group">
+                            <input class="input--style-1" type="number"   placeholder="ENTER AMOUNT YOU WANT PAY" name="amount">
+                            <input  type="hidden"   value={{i.Customer_Name}} name="cname">
+                            <input  type="hidden"   value={{i.CAF_Number}} name="caf_number">
+                            <input  type="hidden"   value={{i.Customer_Mobile}} name="cnumber">
+                            <input  type="hidden"   value={{i.id}} name="cid">
+                            <input  type="hidden"   value={{i.total_balance}} name="ctotal">
+
+                        </div>
+
+                        <div class="p-t-20">
+                            <button class="btn btn--radius btn--green" type="submit">Pay</button>
+                        </div>
+                    </form>
+                    {%endfor%}
+                </div>
+                <div class="card-footer">
+                    <h5 style="text-align:center">Note:This payment includes January 2021 bill amount</h5><br>
+                    <h5 style="text-align:center">Note: 1% of charges for online payment</h5><br>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Jquery JS-->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"   ></script>
+    <!-- Vendor JS-->
+    <script src="{% static 'vendor/select2/select2.min.js' %}" ></script>
+
+    <!-- Main JS-->
+    <script src="assets/js/global.js"></script>
+
+</body>
+
+</html>
+<!-- end document-->

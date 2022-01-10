@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="content content-fixed">
+    <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
+        <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
+            <div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Sales Monitoring</li>
+                    </ol>
+                </nav>
+
+            </div>
+            <div class="d-none d-md-block">
+
+            </div>
+        </div>
+        <div class="row">
+                    <div  class="df-example col-md-12">
+          <ul class="steps steps-lg steps-justified">
+            <li class="step-item complete">
+              <a href="http://lavanyaciticable.uk.nf/admin/transactions/transaction/" class="step-link">
+                <span class="step-number">{{total_txn}}</span>
+                <span class="step-title">
+                  <span>Total</span>
+                  <span>CAFS/Transactions </span>
+                </span>
+              </a>
+            </li>
+               <li class="step-item active">
+              <a href="http://lavanyaciticable.uk.nf/admin/transactions/transaction/" class="step-link">
+                <span class="step-number">{{txn_phone}}</span>
+                <span class="step-title">
+                  <span>Total</span>
+                  <span>Phonepe Transactions</span>
+                </span>
+              </a>
+            </li>
+            <li class="step-item active">
+              <a href="http://lavanyaciticable.uk.nf/admin/transactions/transaction/" class="step-link">
+                <span class="step-number">{{txn_gpay}}</span>
+                <span class="step-title">
+                  <span>Total</span>
+                  <span>G-pay Transactions</span>
+
+                </span>
+              </a>
+            </li>
+            <li class="step-item active">
+              <a href="http://lavanyaciticable.uk.nf/admin/transactions/transaction/" class="step-link">
+                <span class="step-number">{{txn_cash}}</span>
+                <span class="step-title">
+                  <span>Total</span>
+                  <span>By-Cash Transactions</span>
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        </div>
+
+        <div class="row">
+
+            <div class="card col-md-3">
+                <div class="card-body">
+
+                    <h6>Total Cablebills: {{cbills}}</h6><br>
+                    <h6>Total Active Users: {{active}}</h6><br>
+                    <h6>Total Inactive Users: {{inactive}}</h6><br>
+                    <h6>Total Agents: {{agents}}</h6>
+
+
+
+
+
+                </div>
+            </div>
+
+
+            <div class="card col-md-6">
+                <div class="card-body" style="height:250px; width:100%;" id="chartdiv"></div>
+            </div>
+
+
+            <div class="card col-md-3">
+                <div class="card-body">
+
+                    <a href="http://lavanyaciticable.uk.nf/admin/transactions/transaction/"><h6>Today's CAFS/Transactions: {{today_txn}}</h6></a><br>
+                    <a href="http://lavanyaciticable.uk.nf/admin/transactions/transaction/"><h6>Today's Phonepe Transactions: {{today_phonepe}}</h6></a><br>
+                    <a href="http://lavanyaciticable.uk.nf/admin/transactions/transaction/"><h6>Today's G-pay Transactions: {{today_googlepay}}</h6></a><br>
+                    <a href="http://lavanyaciticable.uk.nf/admin/transactions/transaction/"><h6>Today's By-Cash Transactions: {{today_cash}}</h6></a><br>
+
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+{%block script%}
+
+<!-- Resources -->
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
+<!-- Chart code -->
+<script>
+am4core.ready(function() {
+
+// Themes begin
+am4core.useTheme(am4themes_animated);
+// Themes end
+
+// Create chart instance
+var chart = am4core.create("chartdiv", am4charts.PieChart);
+
+// Add data
+chart.data = [ {
+  "country": "Cable Bills",
+  "litres": {{cbills}}
+}, {
+  "country": "Active Users",
+  "litres": {{active}}
+}, {
+  "country": "Inactive Users",
+  "litres": {{inactive}}
+}, {
+  "country": "Agents",
+  "litres": {{agents}}
+}];
+
+// Set inner radius
+chart.innerRadius = am4core.percent(50);
+
+// Add and configure Series
+var pieSeries = chart.series.push(new am4charts.PieSeries());
+pieSeries.dataFields.value = "litres";
+pieSeries.dataFields.category = "country";
+pieSeries.slices.template.stroke = am4core.color("#fff");
+pieSeries.slices.template.strokeWidth = 2;
+pieSeries.slices.template.strokeOpacity = 1;
+
+// This creates initial animation
+pieSeries.hiddenState.properties.opacity = 1;
+pieSeries.hiddenState.properties.endAngle = -90;
+pieSeries.hiddenState.properties.startAngle = -90;
+
+}); // end am4core.ready()
+
+</script>
+
+<!-- HTML -->
+
+{%endblock%}
+
+{% endblock %}

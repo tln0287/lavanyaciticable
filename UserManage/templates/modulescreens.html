@@ -1,0 +1,77 @@
+
+
+{% extends 'base.html' %}
+{% block content %}
+    {%load static  %}
+    <!--<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>-->
+
+    <div class="content content-fixed" id="screen9">
+        <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}">
+                    <a class="close" href="#" data-dismiss="alert">×</a>
+
+                    {{ message }}
+
+                </div>
+            {% endfor %}
+            <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
+                <div>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+                            <li class="breadcrumb-item"><a href="#">{{ main }}</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ sub }}</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="d-none d-md-block">
+
+                </div>
+            </div>
+
+            <div class="row row-xs">
+
+                    <div class="col-md-4">
+                        <div class="card ht-100p">
+                            <div class="card-header d-flex align-items-center justify-content-between">
+                                <h6 class="mg-b-0 text-uppercase">{{ title.module_name }} MODULE SCREENS</h6>
+                                <div class="d-flex align-items-center tx-18">
+
+
+                                </div>
+                            </div>
+                            <ul class="list-group list-group-flush tx-13">
+                                {% for row in res %}
+                                <li class="list-group-item d-flex pd-sm-x-20">
+                                    <div class="avatar"><span class="avatar-initial rounded-circle bg-gray-600">{{ row.name|slice:"1" }}</span>
+                                    </div>
+                                    <div class="pd-l-10">
+                                        <p class="tx-medium mg-b-0">{{ row.name }}</p>
+                                        <small class="tx-12 tx-color-03 mg-b-0"><i data-feather="{{ row.icon }}" style="height: 14px"></i>{{ row.access_name }}</small>
+                                    </div>
+                                    <div class="mg-l-auto d-flex align-self-center">
+                                        <nav class="nav nav-icon-only">
+                                            <a href="{% url row.link.strip %}" class="nav-link d-none d-sm-block"><i data-feather="chevron-right"></i></a>
+
+                                        </nav>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    </body>
+
+{% endblock %}
+
+

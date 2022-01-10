@@ -1,0 +1,14 @@
+<ul class="list-unstyled media-list mg-b-15">
+    {% for row in menusettingssub %}
+        <li class="media align-items-center">
+            <a href="{% url row.link.strip %}">
+                <div class="avatar avatar-sm"><i data-feather="{{ row.icon }}" style="height: 18px"></i></div>
+
+                <div class="media-body pd-l-15">
+                    <h6 class="mg-b-2"><a href="{% url row.link.strip %}" class="link-01">{{ row.name }}</a></h6>
+                </div>
+             </a>
+        </li>
+    {% endfor %}
+
+</ul>

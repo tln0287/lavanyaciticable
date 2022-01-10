@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Lavanya Citi Cable</title>
+    {%load static %}
+    <!-- Twitter -->
+    <meta name="twitter:site" content="@themepixels">
+    <meta name="twitter:creator" content="@themepixels">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="DashForge">
+    <meta name="twitter:description" content="Responsive Bootstrap 4 Dashboard Template">
+    <meta name="twitter:image" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+
+    <!-- Facebook -->
+    <meta property="og:url" content="http://themepixels.me/dashforge">
+    <meta property="og:title" content="PyShop">
+    <meta property="og:description" content="Responsive Bootstrap 4 Dashboard Template">
+
+    <meta property="og:image" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+    <meta property="og:image:secure_url" content="http://themepixels.me/dashforge/img/dashforge-social.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="600">
+
+    <!-- Meta -->
+    <meta name="description" content="">
+    <meta name="author" content="ThemePixels">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{%static 'static/assets/img/favicon.png'%}">
+
+
+    <link href="{%static 'assets/css/icons/simple-line-icons/css/simple-line-icons.css' %}" rel="stylesheet">
+    <link href="{%static 'assets/css/icons/themefy/themify-icons.css');?>" rel="stylesheet">
+    <link href="{%static 'assets/css/icons/font-awesome/css/font-awesome.min.css');?>" rel="stylesheet">
+
+    <!-- vendor css -->
+    <link href="{%static 'lib/@fortawesome/fontawesome-free/css/all.min.css' %}" rel="stylesheet">
+    <link href="{%static 'lib/ionicons/css/ionicons.min.css' %}" rel="stylesheet">
+    <link href="{%static 'lib/jqvmap/jqvmap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/select2/css/select2.min.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/typicons.font/typicons.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/prismjs/themes/prism-vs.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/ion-rangeslider/css/ion.rangeSlider.min.css' %}" rel="stylesheet">
+
+    <!-- Data tables CSS -->
+    <link href="{%static 'lib/datatables.net-dt/css/jquery.dataTables.min.css' %}" rel="stylesheet">
+    <link href="{%static 'lib/datatables.net-responsive-dt/css/responsive.dataTables.min.css' %}" rel="stylesheet">
+
+    <!-- DashForge CSS -->
+    <link rel="stylesheet" href="{%static 'assets/css/dashforge.css' %}">
+    <link rel="stylesheet" href="{%static 'assets/css/dashforge.dashboard.css' %}">
+    <link rel="stylesheet" href="{%static 'assets/css/dashforge.auth.css' %}">
+    <link rel="stylesheet" href="{%static 'assets/css/dashforge.demo.css' %}">
+
+
+
+
+
+
+
+</head>
+<body class="page-profile">
+{% include 'menu.html' %}
+
+{% block content %}
+</body>
+{% endblock %}
+
+
+
+<script src="{%static 'lib/jquery/jquery.min.js' %}"></script>
+<script src="{%static 'lib/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{%static 'lib/feather-icons/feather.min.js' %}"></script>
+<script src="{%static 'lib/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+<script src="{%static 'lib/jquery.flot/jquery.flot.js' %}"></script>
+<script src="{%static 'lib/jquery.flot/jquery.flot.stack.js' %}"></script>
+<script src="{%static 'lib/jquery.flot/jquery.flot.resize.js' %}"></script>
+<script src="{%static 'lib/chart.js/Chart.bundle.min.js' %}"></script>
+<script src="{%static 'lib/jqvmap/jquery.vmap.min.js' %}"></script>
+<script src="{%static 'lib/jqvmap/maps/jquery.vmap.usa.js' %}"></script>
+
+<script src="{%static 'assets/js/dashforge.js' %}"></script>
+<script src="{%static 'assets/js/dashforge.sampledata.js' %}"></script>
+<script src="{% static 'lib/select2/js/select2.min.js' %}"></script>
+
+<!-- Data Tables -->
+
+<script src="{%static 'lib/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{%static 'lib/datatables.net-dt/js/dataTables.dataTables.min.js' %}"></script>
+<script src="{%static 'lib/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{%static 'lib/datatables.net-responsive-dt/js/responsive.dataTables.min.js' %}"></script>
+
+<!-- append theme customizer -->
+<script src="{%static 'lib/js-cookie/js.cookie.js' %}"></script>
+<script src="{%static 'assets/js/dashforge.settings.js' %}"></script>
+<script src="{%static 'assets/js/sms.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<!-- tender request customizer -->
+
+
+<script src="{%static 'lib/prismjs/prism.js' %}"></script>
+<script src="{%static 'lib/parsleyjs/parsley.min.js' %}"></script>
+<script src="{%static 'lib/jquery-steps/build/jquery.steps.min.js' %}"></script>
+<script src="{%static 'lib/jqueryui/jquery-ui.min.js' %}"></script>
+
+{%block script%}
+{%endblock%}
+<script>
+     $(function(){
+        'use strict'
+
+            $('.select2').select2({
+                minimumResultsForSearch: 5,
+                placeholder: 'Choose one',
+
+            });
+
+     });
+
+        $('#example3').DataTable({
+          language: {
+            searchPlaceholder: 'Search...',
+            sSearch: '',
+            lengthMenu: '_MENU_ items/page',
+          }
+        });
+         $('[data-toggle="tooltip"]').tooltip();
+         getHeight();
+
+
+         $(".alert").fadeTo(2000, 2000).slideUp(2000, function(){
+            $("#alert").slideUp(2000);
+        });
+
+
+         function getHeight(){
+            var height = $(window).height();
+            height = parseFloat(height) - 110;
+            height1 = parseFloat(height) - 110;
+            $('#screen9').css('min-height', height + 'px');
+            $('#setting9').css('min-height', height1 + 'px');
+            $('.select2').select2({
+                minimumResultsForSearch: Infinity,
+                placeholder: 'Choose one',
+
+            });
+        }
+
+
+
+</script>
+
+</html>

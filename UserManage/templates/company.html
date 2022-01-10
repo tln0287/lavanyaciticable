@@ -1,0 +1,149 @@
+
+
+{% extends 'base.html' %}
+{% block content %}
+    <!--<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>-->
+
+    <div class="content content-fixed" id="screen9">
+        <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
+           {% for message in messages %}
+                <div class="alert {{ message.tags }}">
+                    <a class="close" href="#" data-dismiss="alert">×</a>
+
+                    {{ message }}
+
+                </div>
+            {% endfor %}
+            <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
+                <div>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+                            <li class="breadcrumb-item"><a href="#">{{ main }}</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ sub }}</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="d-none d-md-block">
+
+                </div>
+            </div>
+
+            <div class="row row-xs">
+                <div class="col-md-10 op-3-f">
+                    <form method="POST" action="{% url 'updatecompany' %}" enctype="multipart/form-data"> {% csrf_token %}
+                        <div class="col-sm-12 mg-t-10 mg-sm-t-25">
+                            <div class="card card-body shadow-none bd-gray-500">
+                                <div class="marker marker-ribbon marker-secondary pos-absolute t-10 l-0">Company
+                                    Details
+                                </div>
+                                <div class="row" style="margin-top: 15px;">
+                                    <div class="col-md-4">
+                                        <div class="form-group mg-b-0">
+                                            <label>Company Name: <span class="tx-danger">*</span></label>
+                                            <input type="text" name="cname" class="form-control wd-250"
+                                                   placeholder="Enter Company Name" required value="{{ company.cname }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group mg-b-0">
+                                            <label>Company Email: <span class="tx-danger">*</span></label>
+                                            <input type="text" name="cemail" class="form-control wd-250"
+                                                   placeholder="Enter Company Email" required value="{{ company.cemail }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group mg-b-0">
+                                            <label>Phone Number: <span class="tx-danger">*</span></label>
+                                            <input type="text" name="cphone" class="form-control wd-250"
+                                                   placeholder="Enter Company Phone Number" required value="{{ company.cphone }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group mg-b-0">
+                                            <label>GST Number: <span class="tx-danger">*</span></label>
+                                            <input type="text" name="gst" class="form-control wd-250"
+                                                   placeholder="Enter Company GST Number" required value="{{ company.gst }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group mg-b-0">
+                                            <label>Database Name: <span class="tx-danger">*</span></label>
+                                            <input type="text" name="dbname" class="form-control wd-250"
+                                                   placeholder="Enter Company GST Number" readonly required value="{{ company.dbname }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group mg-b-0">
+                                            <label>Company Address: <span class="tx-danger">*</span></label>
+                                            <textarea name="caddress" class="form-control wd-250"
+                                                      placeholder="Enter Company Address" style="height: 37px;width:100%">{{ company.caddress }}</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <div class="col-md-2">
+                                        <div class="form-group mg-b-0">
+                                            <label>Company Logo: <span class="tx-danger">*</span></label>
+                                            <div id="prof1_pic" class="text-center">
+                                                <label for="company_logo" style="border:1px solid #FFF;padding:5px;border-radius:3px;width:100%;">
+                                                      {% if company.logo %}
+                                                            <img class="" src="{{ MEDIA_URL }}{{ company.logo }}"  id="imgs1" style="width:100%;height:100%;border:1px solid #d9d9d9;padding:10px;border-radius:3px;"/>
+                                                      {% else %}
+                                                            <img src="{{ MEDIA_URL }}/company/invlogo.jpg"  id="imgs1" style="width:145px;height:150px;border:1px solid #d9d9d9;padding:10px;border-radius:3px;"/>
+                                                      {% endif %}
+                                                </label>
+                                            </div>
+                                            <input id="company_logo" type="file" name="company_logo" accept="image/*" onchange="getTumbs('company_logo','imgs1');" style="display: none;">
+                                            <input type="hidden" value="" id="spic1" name="spic1">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-10">
+
+                                            <div class="form-group mg-b-0">
+                                                <label>Company Invoice Logo: <span class="tx-danger">*</span></label>
+                                                <div id="prof1_pic" class="text-center">
+                                                    <label for="company_invoicelogo" style="border:1px solid #FFF;padding:5px;border-radius:3px;width:100%;">
+                                                          {% if company.invoicelogo %}
+                                                                <img class="" src="{{ MEDIA_URL }}{{ company.invoicelogo }}"  id="imgs2" style="width:100%;height:110px;border:1px solid #d9d9d9;padding:10px;border-radius:3px;"/>
+                                                          {% else %}
+                                                                <img src="{{ MEDIA_URL }}/company/logolable.jpg"  id="imgs2" style="width:145px;height:150px;border:1px solid #d9d9d9;padding:10px;border-radius:3px;"/>
+                                                          {% endif %}
+                                                    </label>
+                                                </div>
+                                                <input id="company_invoicelogo" type="file" name="company_invoicelogo" accept="image/*" onchange="getTumbs('company_invoicelogo','imgs2');" style="display: none;">
+                                                <input type="hidden" value="" id="spic2" name="spic2">
+                                            </div>
+
+                                     </div>
+                                </div>
+
+                                <div class="row" style="margin-top: 15px;">
+                                    <div class="col-md-5"><input type="hidden" name="logoname" value="{{ company.logo }}"></div>
+                                    <div class="col-md-5"><input type="hidden" name="invlogoname" value="{{ company.invoicelogo }}"></div>
+                                    <div class="col-md-5"><input type="hidden" name="supassword" value="{{ company.supassword }}"></div>
+                                    <div class="col-md-2"><button type="submit" class="btn btn-primary pd-x-20" style="width: 100%;">Submit</button></div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-2 mg-t-40 mg-lg-t-0" id="setting9"  style="border-left:1px solid #d9d9d9; ">
+                    <div class="d-flex align-items-center justify-content-between mg-b-20">
+                        <h6 class="tx-uppercase tx-semibold mg-b-0"><a href="{% url 'appsettings' %}"> <i data-feather="settings" style="height: 16px"></i> SETTINGS</a></h6>
+                    </div>
+                    {% include 'settingsmenu.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    </body>
+
+{% endblock %}
+
+

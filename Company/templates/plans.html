@@ -1,0 +1,120 @@
+<head>
+    {% load static %}
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+      <link  href="{% static 'assets/css/style.css' %}"  rel="stylesheet" media="all">
+<!--	<link rel="stylesheet" type="text/css" href="style.css">-->
+</head>
+<body  style="background-color:#293a4a">
+
+    <!-- Plans -->
+    <section>
+        {%for i in caf_data %}
+    	<div class="container" style="margin-top: 50px; margin-bottom: 50px;">
+            <center><h2  style="text-align:center; color:#fff">Hello {{i.Customer_Name}}</h2></center>
+    		<center><h2 style="color: #fff">Welcome to Lavanya Citi Cable</h2></center>
+    		<center><h3 style="color: #fff"> Select Your Plan</h3></center>
+    		<center><h4 style="color: #fff">Note: This payment includes January 2021 bill amount</h3></center>
+    	</div>
+    </section>
+    <section id="plans" >
+        <div class="container">
+            <div class="row">
+
+                <!-- item -->
+                <div class="col-md-4 text-center">
+                    <div class="panel panel-danger panel-pricing">
+                        <div class="panel-heading">
+                            <i class="fa fa-desktop"></i>
+                            <h3>HOME BASIC</h3>
+                        </div>
+                        <div class="panel-body text-center">
+                            <p><strong>649₹</strong></p>
+                        </div>
+                        <ul class="list-group text-center">
+                            <li class="list-group-item"><i class="fa fa-check"></i> 200+ Channels</li>
+                            <li class="list-group-item"><i class="fa fa-check"></i> Upto 15 Mbps Speed</li>
+                            <li class="list-group-item"><i class="fa fa-check"></i> 100 GB FUP Limit</li>
+                            <li class="list-group-item"><i class="fa fa-check"></i> 2 Mbps Post FUP</li>
+                        </ul>
+                        <div class="panel-footer">
+                            <form  action="{% url 'payamount' %}" method="post">
+                                {%csrf_token%}
+                                <input type="hidden" value="64900" name="plan">
+                                <input type="hidden" value="{{i.CAF_Number}}" name="caf_number">
+                                <input type="hidden" value="{{i.Customer_Name}}" name="cus_name">
+                                <input type="hidden" value="{{i.Customer_Mobile}}" name="cus_phone">
+                           <input class="btn btn-lg btn-block btn-danger" value="Get this" type="submit">
+                                </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- /item -->
+
+                <!-- item -->
+                <div class="col-md-4 text-center">
+                    <div class="panel panel-warning panel-pricing">
+                        <div class="panel-heading">
+                            <i class="fa fa-desktop"></i>
+                            <h3>HOME ESSENTIAL</h3>
+                        </div>
+                         <div class="panel-body text-center">
+                            <p><strong>799₹</strong></p>
+                        </div>
+                        <ul class="list-group text-center">
+                            <li class="list-group-item"><i class="fa fa-check"></i> 240+ Channels</li>
+                            <li class="list-group-item"><i class="fa fa-check"></i> Upto 30 Mbps Speed</li>
+                            <li class="list-group-item"><i class="fa fa-check"></i> 300 GB FUP Limit</li>
+                            <li class="list-group-item"><i class="fa fa-check"></i> 2 Mbps Post FUP</li>
+                        </ul>
+                        <div class="panel-footer">
+                             <form  action="{% url 'payamount' %}" method="post">
+                                {%csrf_token%}
+                                <input type="hidden" value="79900" name="plan">
+                                  <input type="hidden" value="{{i.CAF_Number}}" name="caf_number">
+                                  <input type="hidden" value="{{i.Customer_Name}}" name="cus_name">
+                                 <input type="hidden" value="{{i.Customer_Mobile}}" name="cus_phone">
+                           <input class="btn btn-lg btn-block btn-danger" value="Get this" type="submit">
+                                </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- /item -->
+
+                <!-- item -->
+                <div class="col-md-4 text-center">
+                    <div class="panel panel-success panel-pricing">
+                        <div class="panel-heading">
+                            <i class="fa fa-desktop"></i>
+                            <h3>HOME PREMIUM</h3>
+                        </div>
+                        <div class="panel-body text-center">
+                            <p><strong>949₹</strong></p>
+                        </div>
+                        <ul class="list-group text-center">
+                            <li class="list-group-item"><i class="fa fa-check"></i> 245+ Channels</li>
+                            <li class="list-group-item"><i class="fa fa-check"></i> Upto 50 Mbps Speed</li>
+                            <li class="list-group-item"><i class="fa fa-check"></i>Truly Unlimited<small>* </small></li>
+                            <li class="list-group-item"><i class="fa fa-check"></i> NA</li>
+                        </ul>
+                        <div class="panel-footer">
+                             <form  action="{% url 'payamount' %}" method="post">
+                                {%csrf_token%}
+                                <input type="hidden" value="94900" name="plan">
+                                  <input type="hidden" value="{{i.CAF_Number}}" name="caf_number">
+                                  <input type="hidden" value="{{i.Customer_Name}}" name="cus_name">
+                                 <input type="hidden" value="{{i.Customer_Mobile}}" name="cus_phone">
+                            <input class="btn btn-lg btn-block btn-danger" value="Get this" type="submit">
+                                </form>
+                        </div>
+                    </div>
+                </div>
+                 {%endfor%}
+                <!-- /item -->
+
+            </div>
+        </div>
+    </section>
+    <!-- /Plans -->
+</body>

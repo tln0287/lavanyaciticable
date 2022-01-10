@@ -1,0 +1,212 @@
+
+
+{% extends 'base.html' %}
+{% block content %}
+    <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
+
+    <div class="content content-fixed" id="screen9">
+        <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}">
+                    <a class="close" href="#" data-dismiss="alert">×</a>
+
+                    {{ message }}
+
+                </div>
+            {% endfor %}
+            <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
+                <div>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+                            <li class="breadcrumb-item"><a href="#">{{ main }}</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ sub }}</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="d-none d-md-block">
+                    <button class="btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5" href="#modal1" data-toggle="modal" data-backdrop="static" data-keyboard="false" onclick="addProfile(0)">
+                        <i data-feather="user" class="wd-10 mg-r-5"></i> Add Profile
+                    </button>
+                </div>
+            </div>
+
+            <div class="row row-xs">
+                <div class="col-md-10 op-3-f">
+                    <div data-label="Example" class="df-example demo-table">
+                        <table id="example3" class="table">
+                            <thead>
+                            <tr>
+                                <th class="wd-10p">S.NO</th>
+                                <th class="wd-70p">PROFILE</th>
+                                <th class="wd-20p text-center">SETTINGS</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            {% for row in profile %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ row.profile_name }}</td>
+                                    <td style="text-align: center;">
+                                        <a href="{% url 'profilemodules' row.id %}" data-toggle="tooltip" data-placement="top"
+                                           title="Profile Permissions" class="text-info"
+                                           style="cursor:pointer;font-size: 9px;" ><i data-feather="unlock"
+                                                                                     style="height: 16px;"></i></a>
+                                        <a data-toggle="modal" data-placement="top" title="Edit Profile" href="#modal1" data-backdrop="static" data-keyboard="false"
+                                           onclick="addProfile({{ row.id }})" class="text-black-50"
+                                           style="cursor:pointer;font-size: 9px;"><i data-feather="edit"
+                                                                                     style="height: 16px;"></i></a>
+                                        <a data-toggle="tooltip" data-placement="top" title="Delete Profile"
+                                           style="cursor:pointer; opacity: 0.5;font-size: 9px;" class="text-danger" onclick="deleter({{ row.id }})"><i
+                                                data-feather="trash" style="height: 16px;"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div class="col-md-2 mg-t-40 mg-lg-t-0" id="setting9"  style="border-left:1px solid #d9d9d9; ">
+                    <div class="d-flex align-items-center justify-content-between mg-b-20">
+                        <h6 class="tx-uppercase tx-semibold mg-b-0"><a href="{% url 'appsettings' %}"> <i data-feather="settings" style="height: 16px"></i> SETTINGS</a></h6>
+                    </div>
+                    {% include 'settingsmenu.html' %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Models -->
+    <div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content tx-14">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="modelTitle">Add Profile</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" action="{% url 'addProfile' %}"> {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                  <input type="hidden" value="0" name="id" id="id">
+                                <label for="">Profile Name</label><span style="color:red;"> *</span>
+                                <input class="form-control" placeholder="Enter Name" type="text" id="name" name="name" onkeypress='nameonly(event);'>
+                                <input class="form-control" type="hidden" id="pid" name="pid">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary tx-13" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary tx-13">Save</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    </body>
+    <script type='text/javascript'>
+
+        function getHeight(){
+            var height = $(window).height();
+            height = parseFloat(height) - 110;
+            $('#screen9').css('min-height', height + 'px');
+
+        }
+
+
+        function addProfile(id1){
+            var id2 = 'Profile';
+            var data = {id1, id2};
+            $.ajax({
+                type : 'GET',
+                url: "{% url 'getEditDit' %}",
+                data : data,
+                dataType: 'json',
+                success: function (data) {
+                  $('#name').val(data[0].profile_name);
+                  $('#id').val(data[0].id);
+                  console.log(data)
+                },
+                error : function(response){
+                    console.log(response)
+                }
+              });
+        }
+
+
+        function deleter(id) {
+
+            var table = 'Profile';
+            var data = {id, table};
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        type: 'GET',
+                        url: "{% url 'getDelete' %}",
+                        data: data,
+                        dataType: 'json',
+                        success: function (data) {
+                            console.log(data)
+
+                            if (data.status == 'true') {
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'success',
+                                    title: data.message,
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                                setTimeout(function(){
+                                  window.location.reload();
+                                }, 1500);
+
+
+                            }else{
+                                 Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'danger',
+                                    title: 'Sorry! Profile Not Deleted. Please try again',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+
+
+                            }
+                        },
+                        error: function (response) {
+                            console.log(response)
+                        }
+                    });
+                }
+            })
+
+
+
+        }
+
+        function profilepermissions(pId){
+
+
+        }
+    </script>
+{% endblock %}
+
+

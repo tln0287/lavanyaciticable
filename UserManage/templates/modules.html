@@ -1,0 +1,91 @@
+
+
+{% extends 'base.html' %}
+{% block content %}
+    <!--<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>-->
+
+    <div class="content content-fixed" id="screen9">
+        <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
+           {% for message in messages %}
+                <div class="alert {{ message.tags }}">
+                    <a class="close" href="#" data-dismiss="alert">×</a>
+
+                    {{ message }}
+
+                </div>
+            {% endfor %}
+            <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
+                <div>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+                            <li class="breadcrumb-item"><a href="#">{{ main }}</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ sub }}</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="d-none d-md-block">
+
+                </div>
+            </div>
+
+            <div class="row row-xs">
+                <div class="col-md-10 op-3-f">
+                    <div data-label="Example" class="df-example demo-table">
+                        <table id="example3" class="table">
+                            <thead>
+                            <tr>
+                                <th class="wd-10p">S.NO</th>
+                                <th class="wd-50p">MODULES</th>
+                                <th class="wd-30p text-center">ACCESS</th>
+                                <th class="wd-30p text-center">EDIT</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in res %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ row.module_name }}</td>
+                                        <td class="text-center"><a href="{% url 'profilepermissions' id row.id %}" class="text-center text-success" title="Access Rights To Module" data-toggle="tooltip" data-placement="top"><i data-feather="check"></i></a></td>
+                                        <td class="text-center"><a href="{% url 'profilepermissions' id row.id %}"  class="text-center text-warning" title="Change Access Rights To Module" data-toggle="tooltip" data-placement="top"><i data-feather="edit"></i></a> </td>
+                                    </tr>
+
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-2 mg-t-40 mg-lg-t-0" id="setting9"  style="border-left:1px solid #d9d9d9; ">
+                    <div class="d-flex align-items-center justify-content-between mg-b-20">
+                        <h6 class="tx-uppercase tx-semibold mg-b-0"><a href="{% url 'appsettings' %}"> <i data-feather="settings" style="height: 16px"></i> SETTINGS</a></h6>
+                    </div>
+                    {% include 'settingsmenu.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    </body>
+    <script type='text/javascript'>
+
+        function getHeight(){
+            var height = $(window).height();
+            height = parseFloat(height) - 110;
+            $('#screen9').css('min-height', height + 'px');
+            $('.select2').select2({
+                minimumResultsForSearch: Infinity,
+                placeholder: 'Choose one',
+
+            });
+        }
+
+
+
+    </script>
+{% endblock %}
+
+
